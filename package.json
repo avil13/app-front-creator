@@ -1,0 +1,24 @@
+{
+  "name": "app-front-creator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "ng": "./bin/afc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">= 4.1.0",
+    "npm": ">= 3.0.0"
+  },
+  "keywords": [],
+  "author": "Aleksey Pivkin",
+  "license": "ISC",
+  "dependencies": {
+    "cli-color": "^1.1.0",
+    "cli-loader": "^1.1.1",
+    "inquirer": "^1.2.2"
+  }
+}
