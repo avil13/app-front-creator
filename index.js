@@ -60,7 +60,7 @@ Promise.resolve({})
     })
     .then(res => {
         // если не установлен Git то ругаемся
-        if (res.code != 0 || true) {
+        if (res.code != 0) {
             throw 'Please install git!!!';
         }
         return res;
