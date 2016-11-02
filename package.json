@@ -35,5 +35,8 @@
     "cli-color": "^1.1.0",
     "inquirer": "^1.2.2",
     "snake-cli-loader": "^1.0.1"
+  },
+  "devDependencies": {
+    "yargs": "^6.3.0"
   }
 }

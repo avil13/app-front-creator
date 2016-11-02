@@ -1,0 +1,6 @@
+{
+    "gulp": "master",
+    "webpack": "webpack",
+    "webpack + react": "webpack-react",
+    "webpack + typescript": "webpack-ts"
+}
