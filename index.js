@@ -1,6 +1,6 @@
 var inquirer = require('inquirer');
 var exec = require('child_process').exec;
-var loader = require('snake-cli-loader')();
+var loader = require('snake-cli-loader');
 var clc = require('cli-color');
 
 var branches = {
