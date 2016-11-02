@@ -100,7 +100,7 @@ Promise.resolve({})
         return Exec(`cd ./${options.proj_name} && git checkout ${branches[options.proj_type]}`);
     })
     .then((res) => {
-        return Exec(`npm install --prefix ./${options.proj_name}`);
+        return Exec(`cd ./${options.proj_name} && npm install`);
     })
     .then((res) => {
         return Exec(`cd ./${options.proj_name} && rm -rf ./.git && git init`);
