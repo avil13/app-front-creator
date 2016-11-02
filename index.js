@@ -89,6 +89,7 @@ Promise.resolve({})
     .then(function(res) {
         console.log('\n', clc.green(finish));
         console.log('\n', clc.green('Finish!!!'));
+        console.log('\n', clc.green(`Project ${options.proj_name} created!`));
     })
     .catch((err) => {
         console.log(clc.red('---===| Error! |===---'), '\n');
