@@ -1,6 +1,6 @@
 {
   "name": "app-front-creator",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -11,7 +11,7 @@
   },
   "engines": {
     "node": ">= 4.1.0",
-    "npm": ">= 2.15.8"
+    "npm": ">= 3.0.0"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "cli-color": "^1.1.0",
-    "cli-loader": "^1.1.1",
-    "inquirer": "^1.2.2"
+    "inquirer": "^1.2.2",
+    "snake-cli-loader": "^1.0.1"
   }
 }
