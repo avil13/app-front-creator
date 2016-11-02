@@ -13,6 +13,10 @@
     "node": ">= 4.1.0",
     "npm": ">= 3.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/avil13/app-front-creator.git"
+  },
   "keywords": [],
   "author": "Aleksey Pivkin",
   "license": "ISC",
