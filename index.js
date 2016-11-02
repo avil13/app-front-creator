@@ -1,6 +1,6 @@
 var inquirer = require('inquirer');
 var exec = require('child_process').exec;
-var loader = require('snake-cli-loader');
+var loader = require('cli-loader')('stack');
 var clc = require('cli-color');
 
 var branches = {
@@ -73,10 +73,7 @@ Promise.resolve({})
                 type: 'list',
                 name: 'proj_type',
                 message: 'Choose type of new element',
-                choices: list,
-                filter: function(val) {
-                    return val.toLowerCase();
-                }
+                choices: list
             },
             {
                 type: 'input',
@@ -84,14 +81,13 @@ Promise.resolve({})
                 message: 'Name of project'
             }
         ]);
+
+        
     })
     .then((res) => {
         options["proj_type"] = res.proj_type;
         options["proj_name"] = res.proj_name;
         return res;
-    })
-    .then((res) => {
-        return Exec(`rm -rf ${options.proj_name}`);
     })
     .then((res) => {
         return Exec(`git clone ${repo} ${options.proj_name}`);
@@ -100,9 +96,11 @@ Promise.resolve({})
         return Exec(`cd ./${options.proj_name} && git checkout ${branches[options.proj_type]}`);
     })
     .then((res) => {
+        console.log(clc.green('Install package'));
         return Exec(`cd ./${options.proj_name} && npm install`);
     })
     .then((res) => {
+        console.log(clc.green('Init git'));
         return Exec(`cd ./${options.proj_name} && rm -rf ./.git && git init`);
     })
     .then(function(res) {
