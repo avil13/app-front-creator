@@ -1,6 +1,6 @@
 var inquirer = require('inquirer');
 var exec = require('child_process').exec;
-var loader = require('cli-loader')('stack');
+var loader = require('snake-cli-loader');
 var clc = require('cli-color');
 
 var branches = {
@@ -67,7 +67,8 @@ Promise.resolve({})
     })
     //*
     .then(res => {
-        var list = [].concat([new inquirer.Separator()], Object.keys(branches), [new inquirer.Separator()]);
+        // var list = [].concat([new inquirer.Separator()], Object.keys(branches), [new inquirer.Separator()]);
+        var list = Object.keys(branches);
 
         return inquirer.prompt([{
                 type: 'list',
@@ -82,7 +83,6 @@ Promise.resolve({})
             }
         ]);
 
-        
     })
     .then((res) => {
         options["proj_type"] = res.proj_type;
@@ -90,6 +90,7 @@ Promise.resolve({})
         return res;
     })
     .then((res) => {
+        console.log(clc.green('Make folder'));
         return Exec(`git clone ${repo} ${options.proj_name}`);
     })
     .then((res) => {

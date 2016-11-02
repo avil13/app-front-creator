@@ -1,6 +1,6 @@
 {
   "name": "app-front-creator",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -19,10 +19,21 @@
   },
   "author": "Aleksey Pivkin",
   "license": "ISC",
-  "keywords": ["cli-app", "cli", "front-end", "development", "dev", "build", "web", "tool", "scaffold", "stack"],
+  "keywords": [
+    "cli-app",
+    "cli",
+    "front-end",
+    "development",
+    "dev",
+    "build",
+    "web",
+    "tool",
+    "scaffold",
+    "stack"
+  ],
   "dependencies": {
     "cli-color": "^1.1.0",
-    "cli-loader": "^1.1.1",
-    "inquirer": "^1.2.2"
+    "inquirer": "^1.2.2",
+    "snake-cli-loader": "^1.0.1"
   }
 }
