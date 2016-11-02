@@ -86,6 +86,10 @@ Promise.resolve({})
         console.log(clc.green('Init git'));
         return Exec(`cd ./${options.proj_name} && rm -rf ./.git && git init`);
     })
+    .then((res) => {
+        // README.md
+        return Exec(`cd ./${options.proj_name} && rm README.md && touch README.md && echo '# ${options.proj_name + "\n***\nnpm start" }' >> README.md `);
+    })
     .then(function(res) {
         console.log('\n', clc.green(finish));
         console.log('\n', clc.green('Finish!!!'));
