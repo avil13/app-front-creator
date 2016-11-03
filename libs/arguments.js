@@ -56,7 +56,7 @@ if (!!argv.n && !argv.u || !argv.n && !!argv.u) {
 }
 
 if (argv.u) {
-    let u = parseInt(argv.u, 10);
+    var u = parseInt(argv.u, 10);
     if (u < 0 || u >= Object.keys(branches).length) {
         console.log('Not valid --use parameter value');
         process.exit(0);

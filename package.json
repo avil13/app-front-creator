@@ -1,6 +1,6 @@
 {
   "name": "app-front-creator",
-  "version": "1.0.14",
+  "version": "1.0.16",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
-    "node": ">= 4.1.0",
+    "node": ">= 4.5.0",
     "npm": ">= 3.0.0"
   },
   "repository": {
@@ -34,9 +34,9 @@
   "dependencies": {
     "cli-color": "^1.1.0",
     "inquirer": "^1.2.2",
-    "snake-cli-loader": "^1.0.1"
+    "snake-cli-loader": "^1.0.1",
+    "yargs": "^6.3.0"
   },
   "devDependencies": {
-    "yargs": "^6.3.0"
   }
 }
