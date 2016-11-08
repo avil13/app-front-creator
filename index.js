@@ -1,11 +1,11 @@
 require('./libs/arguments');
 
 var clc = require('cli-color');
-var fs = require('fs'); 
 
 var exec = require('./libs/exec');
 var finish = require('./libs/finish-title');
 var readStr = require('./libs/read-str');
+var write = require('./libs/write-name');
 
 
 var branches = require('./libs/branches');
@@ -91,26 +91,27 @@ Promise.resolve({})
         return exec(`cd ./${options.name} && rm -rf ./.git && git init`);
     })
     .then(res => {
-        // README.md
+        // README.md ===
         return exec(`cd ./${options.name} && rm README.md && touch README.md && echo '# ${options.name + "\n***\nnpm start" }' >> README.md `);
     })
     .then(res => {
-        // Title
-        return new Promise((resolve, reject) => {
-            var indexFile = `${options.name}/public/index.html`;
-            var title = options.name.charAt(0).toUpperCase() + options.name.slice(1);
+        // Title ===
+        var title = options.name.charAt(0).toUpperCase() + options.name.slice(1);
 
-            fs.readFile(indexFile, 'utf8', function(err, data) {
-                if (err) {
-                    return reject(err);
-                }
-                var result = data.replace(/(<title>).*(<\/title>)/g, `$1${title}$2`);
+        return write(`./${options.name}/public/index.html`, (data) => {
+            return data.replace(/(<title>).*(<\/title>)/g, `$1${title}$2`);
+        });
+    })
+    .then(res => {
+        // Manifest ===
+        var title = options.name.charAt(0).toUpperCase() + options.name.slice(1);
 
-                fs.writeFile(indexFile, result, 'utf8', function(err) {
-                    if (err) return reject(err);
-                    resolve(true);
-                });
-            });
+        return write(`./${options.name}/public/manifest.webmanifest`, (data) => {
+            var _data = JSON.parse(data);
+
+            _data.name = _data.short_name = title;
+
+            return JSON.stringify(_data, null, 4);
         });
     })
     .then(res => {
