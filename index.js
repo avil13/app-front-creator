@@ -1,9 +1,8 @@
-var inquirer = require('inquirer');
 var clc = require('cli-color');
 
 var exec = require('./libs/exec');
-var argv = require('./libs/arguments');
 var finish = require('./libs/finish-title');
+var readStr = require('./libs/read-str');
 
 
 var branches = require('./libs/branches');
@@ -11,8 +10,8 @@ var repo = 'https://github.com/avil13/empty-project.git';
 var options = {};
 
 
+process.stdin.setEncoding('utf8');
 // ======= Run ========
-
 
 Promise.resolve({})
     .then(res => {
@@ -27,65 +26,73 @@ Promise.resolve({})
     })
     //*
     .then(res => {
-        var list = [].concat([new inquirer.Separator()], Object.keys(branches), [new inquirer.Separator()]);
+        // получаем имя проекта
+        console.log(clc.cyan('Enter name of project: '));
 
-        if (argv.n && argv.u) {
-            // Получаем ключ названия ветки
-            var key = Object.keys(branches)[argv.u];
-
-            return {
-                proj_type: key,
-                proj_name: argv.n
-            };
-        } else {
-            return inquirer.prompt([{
-                    type: 'list',
-                    name: 'proj_type',
-                    message: 'Choose type of new element',
-                    choices: list
-                },
-                {
-                    type: 'input',
-                    name: 'proj_name',
-                    message: 'Name of project',
-                    validate: function(str) {
-                        return str.lenght !== 0;
-                    }
-                }
-            ]);
-        }
+        return readStr();
     })
-    .then(res => {
-        options["proj_type"] = branches[res.proj_type];
-        options["proj_name"] = res.proj_name;
-        return res;
+    .then(name => {
+        options["name"] = name; // Set name
+
+        // Выбираем нужную ветку
+        console.log(clc.cyan('Enter name of project: '));
+
+        var num = 1;
+        for (var k in branches) {
+            console.log((num++) + ') ' + k);
+        }
+        console.log(clc.cyan('Number: '));
+
+        return readStr();
+    })
+    .then(numb => {
+        var list = Object.keys(branches);
+
+        if (numb > list.length || numb <= 0) {
+            throw 'Need valid number';
+        }
+
+        // Получили номер, ветки, Выбираем ее из списка
+        options["type"] = branches[list[numb - 1]];
+
+        return options;
     })
     .then(res => {
         console.log(clc.green('Make folder'));
-        return exec(`git clone ${repo} ${options.proj_name}`);
+        return exec(`git clone ${repo} ${options.name}`);
     })
     .then(res => {
-        if(options.proj_type === 'master'){
+        if (options.type === 'master') {
             return res;
         }
-        return exec(`cd ./${options.proj_name} && git checkout ${options.proj_type}`);
+        return exec(`cd ./${options.name} && git checkout ${options.type}`);
     })
     .then(res => {
+        // Устанавливать ли пакеты?
+        console.log(clc.cyan('Run npm install [y/N]: '));
+
+        return readStr();
+    })
+    .then(res => {
+        if(res.toLowerCase() !== 'y'){
+            return false;
+        }
+        
         console.log(clc.green('Install package'));
-        return exec(`cd ./${options.proj_name} && npm install`);
+        return exec(`cd ./${options.name} && npm install`);
     })
     .then(res => {
         console.log(clc.green('Init git'));
-        return exec(`cd ./${options.proj_name} && rm -rf ./.git && git init`);
+        return exec(`cd ./${options.name} && rm -rf ./.git && git init`);
     })
     .then(res => {
         // README.md
-        return exec(`cd ./${options.proj_name} && rm README.md && touch README.md && echo '# ${options.proj_name + "\n***\nnpm start" }' >> README.md `);
+        return exec(`cd ./${options.name} && rm README.md && touch README.md && echo '# ${options.name + "\n***\nnpm start" }' >> README.md `);
     })
     .then(function(res) {
         console.log('\n', clc.green(finish));
         console.log('\n', clc.green('Finish!!!'));
-        console.log('\n', clc.green(`Project "${ clc.underline(options.proj_name)}" created!`));
+        console.log('\n', clc.green(`Project "${ clc.underline(options.name)}" created!`));
     })
     .catch((err) => {
         console.log(clc.red('---===| Error! |===---'), '\n');

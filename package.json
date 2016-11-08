@@ -1,6 +1,6 @@
 {
   "name": "app-front-creator",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -33,9 +33,7 @@
   ],
   "dependencies": {
     "cli-color": "^1.1.0",
-    "inquirer": "^1.2.2",
-    "snake-cli-loader": "^1.0.1",
-    "yargs": "^6.3.0"
+    "snake-cli-loader": "^1.0.1"
   },
   "devDependencies": {
   }
