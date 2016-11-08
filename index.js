@@ -1,4 +1,5 @@
 var clc = require('cli-color');
+var fs = require('fs');
 
 var exec = require('./libs/exec');
 var finish = require('./libs/finish-title');
@@ -46,6 +47,8 @@ Promise.resolve({})
         return readStr();
     })
     .then(numb => {
+        numb = numb | 0; // Integer
+
         var list = Object.keys(branches);
 
         if (numb > list.length || numb <= 0) {
@@ -74,10 +77,10 @@ Promise.resolve({})
         return readStr();
     })
     .then(res => {
-        if(res.toLowerCase() !== 'y'){
+        if (res.toLowerCase() !== 'y') {
             return false;
         }
-        
+
         console.log(clc.green('Install package'));
         return exec(`cd ./${options.name} && npm install`);
     })
@@ -89,7 +92,26 @@ Promise.resolve({})
         // README.md
         return exec(`cd ./${options.name} && rm README.md && touch README.md && echo '# ${options.name + "\n***\nnpm start" }' >> README.md `);
     })
-    .then(function(res) {
+    .then(res => {
+        // Title
+        return new Promise((resolve, reject) => {
+            var indexFile = `${options.name}/public/index.html`;
+            var title = options.name.charAt(0).toUpperCase() + options.name.slice(1);
+
+            fs.readFile(indexFile, 'utf8', function(err, data) {
+                if (err) {
+                    return reject(err);
+                }
+                var result = data.replace(/(<title>).*(<\/title>)/g, `$1${title}$2`);
+
+                fs.writeFile(indexFile, result, 'utf8', function(err) {
+                    if (err) return reject(err);
+                    resolve(true);
+                });
+            });
+        });
+    })
+    .then(res => {
         console.log('\n', clc.green(finish));
         console.log('\n', clc.green('Finish!!!'));
         console.log('\n', clc.green(`Project "${ clc.underline(options.name)}" created!`));
