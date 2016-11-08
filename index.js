@@ -1,5 +1,7 @@
+require('./libs/arguments');
+
 var clc = require('cli-color');
-var fs = require('fs');
+var fs = require('fs'); 
 
 var exec = require('./libs/exec');
 var finish = require('./libs/finish-title');
