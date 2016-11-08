@@ -35,7 +35,7 @@ Promise.resolve({})
         options["name"] = name; // Set name
 
         // Выбираем нужную ветку
-        console.log(clc.cyan('Enter name of project: '));
+        console.log(clc.cyan('Enter number of project: '));
 
         var num = 1;
         for (var k in branches) {
