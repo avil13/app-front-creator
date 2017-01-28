@@ -1,7 +1,0 @@
-{
-    "gulp": "master",
-    "webpack": "webpack",
-    "webpack + react": "webpack-react",
-    "webpack + typescript": "webpack-ts",
-    "anguar-cli + ngrx/store": "anguar-cli_ng-redux"
-}

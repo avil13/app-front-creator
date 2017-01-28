@@ -30,89 +30,68 @@ Promise.resolve({})
     //*
     .then(res => {
         // получаем имя проекта
-        console.log(clc.cyan('Enter name of project: '));
-
-        return readStr();
+        return readStr('Enter name of project: ');
     })
     .then(name => {
-        options["name"] = name; // Set name
+        options["title"] = name.charAt(0).toUpperCase() + name.slice(1);
+        options["name"] = name.replace(/\s/g, ''); // Set name
 
         // Выбираем нужную ветку
         console.log(clc.cyan('Enter number of project: '));
 
-        var num = 1;
-        for (var k in branches) {
-            console.log((num++) + ') ' + k);
+        let i = 0;
+        while (i < branches.length) {
+            console.log((++i) + ') ' + branches[i - 1].name);
         }
-        console.log(clc.cyan('Number: '));
 
-        return readStr();
+        return readStr('Number: ');
     })
     .then(numb => {
-        numb = numb | 0; // Integer
+        numb = numb | 1; // convert to Integer
 
-        var list = Object.keys(branches);
-
-        if (numb > list.length || numb <= 0) {
+        if (numb > branches.length || numb <= 0) {
             throw 'Need valid number';
         }
 
         // Получили номер, ветки, Выбираем ее из списка
-        options["type"] = branches[list[numb - 1]];
+        options.numb = numb - 1;
+        options["branch"] = branches[options.numb].branch;
 
         return options;
     })
     .then(res => {
-        console.log(clc.green('Make folder'));
-        return exec(`git clone ${repo} ${options.name}`);
+        return exec(`git clone ${repo} ${options.name}`, 'Make folder');
     })
     .then(res => {
-        if (options.type === 'master') {
+        if (options.branch === 'master') {
             return res;
         }
-        return exec(`cd ./${options.name} && git checkout ${options.type}`);
+        return exec(`cd ./${options.name} && git checkout ${options.branch}`);
     })
     .then(res => {
         // Устанавливать ли пакеты?
-        console.log(clc.cyan('Run npm install [y/N]: '));
-
-        return readStr();
+        return readStr('Run npm install [y/N]: ');
     })
     .then(res => {
         if (res.toLowerCase() !== 'y') {
             return false;
         }
 
-        console.log(clc.green('Install package'));
-        return exec(`cd ./${options.name} && npm install`);
+        return exec(`cd ./${options.name} && npm install`, 'Install package');
     })
     .then(res => {
-        console.log(clc.green('Init git'));
-        return exec(`cd ./${options.name} && rm -rf ./.git && git init`);
+        return exec(`cd ./${options.name} && rm -rf ./.git && git init`, 'Init git');
     })
     .then(res => {
-        // README.md ===
-        return exec(`cd ./${options.name} && rm README.md && touch README.md && echo '# ${options.name + "\n***\nnpm start" }' >> README.md `);
-    })
-    .then(res => {
-        // Title ===
-        var title = options.name.charAt(0).toUpperCase() + options.name.slice(1);
+        let arrForReplace = branches[options.numb].replaceNames;
 
-        return write(`./${options.name}/public/index.html`, (data) => {
-            return data.replace(/(<title>).*(<\/title>)/g, `$1${title}$2`);
-        });
-    })
-    .then(res => {
-        // Manifest ===
-        var title = options.name.charAt(0).toUpperCase() + options.name.slice(1);
-
-        return write(`./${options.name}/public/manifest.webmanifest`, (data) => {
-            var _data = JSON.parse(data);
-
-            _data.name = _data.short_name = title;
-
-            return JSON.stringify(_data, null, 4);
-        });
+        for (let i = 0; i < arrForReplace.length; i++) {
+            let title = arrForReplace[i].title;
+            write(
+                arrForReplace[i].path(options.name),
+                arrForReplace[i].cb(options.title)
+            );
+        }
     })
     .then(res => {
         console.log('\n', clc.green(finish));
