@@ -22,7 +22,7 @@ afc
 - webpack
 - webpack + react
 - webpack + typescript
-
+- angular2 + ngrx/store + bootstrap3
 
 ***
 
