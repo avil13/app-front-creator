@@ -1,7 +1,5 @@
 # app-front-creator / afc
 
-***
-
 One more way to build front-end project.
 
 
