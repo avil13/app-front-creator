@@ -26,6 +26,15 @@ let gulpOrWp = [
     {
         path: (_folder) => `./${_folder}/README.md`,
         cb: (title) => (data) => data.replace(/^([^\n]+)/g, title)
+    },
+    // package.json
+    {
+        path: (_folder) => `./${_folder}/package.json`,
+        cb: (title) => (data) => {
+            var _data = JSON.parse(data);
+            _data.name = title.toLowerCase().replace(/\s/, '-');
+            return JSON.stringify(_data, null, 2);
+        }
     }
 ];
 
@@ -45,10 +54,9 @@ let ngCli = [
         }
     },
     // README
-    {
-        path: (_folder) => `./${_folder}/README.md`,
-        cb: (title) => (data) => data.replace(/^([^\n]+)/g, title)
-    }
+    gulpOrWp[2],
+    // package.json
+    gulpOrWp[3]
 ];
 
 
