@@ -57,6 +57,7 @@ let ngCli = [
     gulpOrWp[2],
     // package.json
     gulpOrWp[3],
+    // nav Title
     {
         path: (_folder) => `./${_folder}/src/app/parts/nav/nav.component.html`,
         cb: (title) => (data) => data.replace(/(class="navbar-brand"[^>]+>)([^<]+)(<\/a)/g, `$1${title}$3`)
