@@ -1,13 +1,13 @@
 {
   "name": "app-front-creator",
-  "version": "1.4.5",
+  "version": "1.5.1",
   "description": "",
   "main": "index.js",
   "bin": {
     "afc": "./bin/afc"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node index.js NODE_ENV test NUM 6"
   },
   "engines": {
     "node": ">= 4.5.0",

@@ -7,89 +7,37 @@
     "anguar-cli + ngrx/store": "anguar-cli_ng-redux"
 }
 */
-let gulpOrWp = [
-    // title
-    {
-        path: (_folder) => `./${_folder}/public/index.html`,
-        cb: (title) => (data) => data.replace(/(<title>).*(<\/title>)/g, `$1${title}$2`)
-    },
-    // webmanifest
-    {
-        path: (_folder) => `./${_folder}/public/manifest.webmanifest`,
-        cb: (title) => (data) => {
-            var _data = JSON.parse(data);
-            _data.name = _data.short_name = title;
-            return JSON.stringify(_data, null, 4);
-        }
-    },
-    // README
-    {
-        path: (_folder) => `./${_folder}/README.md`,
-        cb: (title) => (data) => data.replace(/^([^\n]+)/g, title)
-    },
-    // package.json
-    {
-        path: (_folder) => `./${_folder}/package.json`,
-        cb: (title) => (data) => {
-            var _data = JSON.parse(data);
-            _data.name = title.toLowerCase().replace(/\s/, '-');
-            return JSON.stringify(_data, null, 2);
-        }
-    }
-];
-
-let ngCli = [
-    // title
-    {
-        path: (_folder) => `./${_folder}/src/index.html`,
-        cb: (title) => (data) => data.replace(/(<title>).*(<\/title>)/g, `$1${title}$2`)
-    },
-    // webmanifest
-    {
-        path: (_folder) => `./${_folder}/src/assets/manifest.webmanifest`,
-        cb: (title) => (data) => {
-            var _data = JSON.parse(data);
-            _data.name = _data.short_name = title;
-            return JSON.stringify(_data, null, 4);
-        }
-    },
-    // README
-    gulpOrWp[2],
-    // package.json
-    gulpOrWp[3],
-    // nav Title
-    {
-        path: (_folder) => `./${_folder}/src/app/parts/nav/nav.component.html`,
-        cb: (title) => (data) => data.replace(/(class="navbar-brand"[^>]+>)([^<]+)(<\/a)/g, `$1${title}$3`)
-    }
-];
-
 
 module.exports = [
     // 
     {
         name: 'gulp',
         branch: 'master',
-        replaceNames: gulpOrWp
+        replaceNames: 'gulp_or_wp'
     },
     {
         name: 'webpack',
         branch: 'webpack',
-        replaceNames: gulpOrWp
+        replaceNames: 'gulp_or_wp'
     },
     {
         name: 'webpack + react',
         branch: 'webpack-react',
-        replaceNames: gulpOrWp
+        replaceNames: 'gulp_or_wp'
     },
     {
         name: 'webpack + typescript',
         branch: 'webpack-ts',
-        replaceNames: gulpOrWp
+        replaceNames: 'gulp_or_wp'
     },
     {
         name: 'anguar-cli + ngrx/store',
         branch: 'anguar-cli_ng-redux',
-        replaceNames: ngCli
+        replaceNames: 'ng_cli'
     },
+    {
+        name: 'a2-boilerplate',
+        branch: 'a2-boilerplate',
+        replaceNames: 'a2'
+    }
 ];

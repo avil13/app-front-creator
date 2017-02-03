@@ -4,7 +4,7 @@ var clc = require('cli-color');
 
 
 if (process.env.NODE_ENV === 'test') {
-    deleteFolderRecursive('testFolder');
+    deleteFolderRecursive('test-folder');
 }
 
 
@@ -14,7 +14,7 @@ module.exports = function(msg) {
     }
 
     if (process.env.NODE_ENV === 'test') {
-        return 'testFolder';
+        return 'test-folder';
     }
 
     var rl = readline.createInterface({

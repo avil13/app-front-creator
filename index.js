@@ -7,7 +7,6 @@ var finish = require('./libs/finish-title');
 var readStr = require('./libs/read-str');
 var write = require('./libs/write-name');
 
-
 var branches = require('./libs/branches');
 var repo = 'https://github.com/avil13/empty-project.git';
 var options = {};
@@ -34,7 +33,7 @@ Promise.resolve({})
     })
     .then(name => {
         options["title"] = name.charAt(0).toUpperCase() + name.slice(1);
-        options["name"] = name.replace(/\s/g, ''); // Set name
+        options["name"] = name.replace(/([A-Z])/g, ($1) => { return "-" + $1.toLowerCase() }).replace(/\s/g, '-'); // Set name
 
         // Выбираем нужную ветку
         console.log(clc.cyan('Enter number of project: '));
@@ -47,7 +46,11 @@ Promise.resolve({})
         return readStr('Number: ');
     })
     .then(numb => {
-        numb = numb | 1; // convert to Integer
+        if (process.env.NODE_ENV === 'test' && process.env.NUM) {
+            numb = process.env.NUM; /// TEST
+        }
+
+        numb = parseInt(numb, 10);
 
         if (numb > branches.length || numb <= 0) {
             throw 'Need valid number';
@@ -83,20 +86,26 @@ Promise.resolve({})
         return exec(`cd ./${options.name} && rm -rf ./.git && git init`, 'Init git');
     })
     .then(res => {
-        let arrForReplace = branches[options.numb].replaceNames;
+        let replaces = require('./libs/branch-file-replaces');
+
+        let arrForReplace = replaces[branches[options.numb].replaceNames];
+        let promises = [];
 
         for (let i = 0; i < arrForReplace.length; i++) {
-            let title = arrForReplace[i].title;
-            write(
+            promises.push(write(
                 arrForReplace[i].path(options.name),
-                arrForReplace[i].cb(options.title)
-            );
+                arrForReplace[i].cb(options.title, options.name)
+            ));
         }
+
+        return Promise.all(promises);
     })
     .then(res => {
         console.log('\n', clc.green(finish));
         console.log('\n', clc.green('Finish!!!'));
-        console.log('\n', clc.green(`Project "${ clc.underline(options.name)}" created!`));
+        console.log('\n', clc.green(`Project "${ clc.underline(options.name)}" created!`), '\n');
+
+        require('./libs/command-list')(options.name);
     })
     .catch((err) => {
         console.log(clc.red('---===| Error! |===---'), '\n');
