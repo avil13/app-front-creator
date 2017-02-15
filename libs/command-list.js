@@ -40,7 +40,11 @@ module.exports = function(folder) {
 
             for (let i = 0; i < list.length; i++) {
                 let name = list[i];
-                console.log(` ${clc.green('npm run ' + name)}\t- ${(dictionary[name] || '')}`);
+                if(dictionary[name]){
+                    console.log(` ${clc.green('npm run ' + name)}\t- ${(dictionary[name] || '')}`);
+                }else{
+                    console.log(` ${clc.green('npm run ' + name)}`);
+                }
             }
         }
 

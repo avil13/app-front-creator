@@ -1,4 +1,5 @@
-var loader = require('snake-cli-loader');
+var loader = require('./loader');
+// var loader = require('snake-cli-loader');
 var exec = require('child_process').exec;
 var clc = require('cli-color');
 
