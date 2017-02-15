@@ -1,6 +1,7 @@
 require('./libs/arguments');
 
 var clc = require('cli-color');
+var fs = require('fs');
 
 var exec = require('./libs/exec');
 var finish = require('./libs/finish-title');
@@ -30,6 +31,12 @@ Promise.resolve({})
     .then(res => {
         // получаем имя проекта
         return readStr('Enter name of project: ');
+    })
+    .then(name => {
+        if (fs.existsSync(name)) {
+            throw `Folder '${name}' already exists`;
+        }
+        return name;
     })
     .then(name => {
         options["title"] = name.charAt(0).toUpperCase() + name.slice(1);
