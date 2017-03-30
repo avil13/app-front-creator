@@ -22,6 +22,7 @@ let load = function() {
 module.exports = {
     start: function() {
         isRun = true;
+        process.stdout.write('\0337');
         load();
     },
     stop: function() {

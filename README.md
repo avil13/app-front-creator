@@ -27,4 +27,9 @@ afc
 ***
 
 Arguments:
-- `-v` / `--version`
+| short | normal     | description                |
+|:-     |:-          |:-                          |
+| -h    | --help     | help                       |
+| -v    | --version  | version                    |
+| -r    | --repo     | Link to your repository    |   
+| -b    | --branch   | Branch of your repository  |   

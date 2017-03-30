@@ -7,9 +7,13 @@
             "type": "node",
             "request": "launch",
             "name": "Запустить программу",
-            "program": "${workspaceRoot}/libs/loader.js",
+            "program": "${workspaceRoot}/index.js",
             "cwd": "${workspaceRoot}",
-            "args": [],
+            "args": [
+                "-repo", "https://github.com/avil13/empty-project.git",
+                "-branch", "master",
+                "-h"
+                ],
             "env": {
                 "NODE_ENV": "test",
                 "NUM": "6"
